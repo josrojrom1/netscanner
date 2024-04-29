@@ -1,4 +1,4 @@
-# netscanner v1.0
+# netscanner v1.0-beta
 Local network scanner to detect hosts connected to our network
 
 With netscanner we are able to scan our local network and see all hosts connected to it. netscanner is a 
