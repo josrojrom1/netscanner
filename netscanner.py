@@ -2,6 +2,8 @@
 # IMPORTS #
 from scapy.all import ARP, Ether, srp
 import os
+import re
+
 os.system('clear')
 ##########
 # Banner #
@@ -9,24 +11,40 @@ with open('banner.txt', 'r') as b:
     for line in b:
         print(line.strip().replace('#', ''))
 ########################################################
-# Función principal para escanear hosts en nuestra red #
+# Principal function for scanning hosts in our network #
 def scan_ips(ip_range):
-    arp = ARP(pdst=ip_range) # Paquete ARP con IP a escanear
-    ether = Ether(dst="ff:ff:ff:ff:ff:ff") # Paquete Ethernet enviado a dirección de difusión
-    packet = ether/arp # Se conbinan ambos paquetes 
-    result = srp(packet, timeout=3, verbose=2)[0] # Se envía el paquete a la red
-    devices = [] # Lista vacía que almacenará las ips y macs que se encuentren
+    arp = ARP(pdst=ip_range) # ARP packet with IP range to be scanned
+    ether = Ether(dst="ff:ff:ff:ff:ff:ff") # Ethernet packet to be sended to difusion address
+    packet = ether/arp # Combination of packets 
+    result = srp(packet, timeout=3, verbose=2)[0] # Sending packet to the network
+    devices = [] # Empty list for devices data (ip and mac)
     for sent, received in result:
         devices.append({'ip': received.psrc, 'mac': received.hwsrc})
-
+    print("\n")
     return devices
 
 if __name__ == "__main__":
-    ip_range = "192.168.1.0/24"  # Cambia esto por tu rango de IP
+    # IP range pattern
+    ip_pattern = re.compile("^(?:[0-9]{1,3}\.){3}[0-9]{1,3}/[0-9]*$")
+
+    
+    while True:
+        # IP range
+        ip_range = input("Insert IP range or private network (Example: 192.168.1.0/24): ")
+        print("\n")
+        if ip_pattern.search(ip_range.strip()):
+            print(f"   \033[92m> {ip_range} is a valid IP range! <\033[0m")
+            break
+        else:
+            # Using ANSI scape sequences to aply log colors
+            print(f"   \033[91m> Invalid argument '{ip_range}', please try again! <\033[0m")
+            print("\n")
+    print("\n")
     devices = scan_ips(ip_range)
     print('---------------------------------------------')
     print("Dispositivos en la red:")
     print('---------------------------------------------')
     for device in devices:
         print(f"(*) IP: {device['ip']} - MAC: {device['mac']}")
-        print('---------------------------------------------\n')
+        print('---------------------------------------------')
+    print("\n")
