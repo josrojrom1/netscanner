@@ -2,6 +2,7 @@
 # IMPORTS #
 from scapy.all import ARP, Ether, srp
 import os
+import sys
 import re
 
 os.system('clear')
@@ -29,16 +30,24 @@ if __name__ == "__main__":
     ip_gateway = re.compile("^(?:[0-9]{1,3}\.){3}[1]*$")
     
     while True:
+        try:
         # IP range
-        ip_range = input("Insert IP range or private network (Example: 192.168.1.0/24): ")
-        print("\n")
+            ip_range = input("Insert IP range or private network (Example: 192.168.1.0/24): ")
+        except KeyboardInterrupt:
+            print("\n\n")
+            print(f"   \033[93m> Ctrl+c pressed. Exiting... <\033[0m\n\n")
+            sys.exit(0)
+
+        
         if ip_range_pattern.search(ip_range.strip()):
-            print(f"   \033[92m> {ip_range} is a valid IP range! <\033[0m")
+            print("\n")
+            print(f"   \033[92m> {ip_range} is a valid IP range! <\033[0m\n")
             break
         else:
             # Using ANSI scape sequences to aply log colors
-            print(f"   \033[91m> Invalid argument '{ip_range}', please try again! <\033[0m")
             print("\n")
+            print(f"   \033[91m> Invalid argument '{ip_range}', please try again! <\033[0m\n\n")
+            #print("\n")
     print("\n")
     devices = scan_ips(ip_range)
     print('---------------------------------------------')
