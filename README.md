@@ -19,15 +19,22 @@ Use the `pip install -r` command to install the dependencies of the "requirement
 ```
 pip install -r requirements.txt
 ```
+# Using netscanner
 To run the script simply use `sudo` (make sure you are in a virtual environment):
 ```
 sudo python netscanner.py
 ```
 It will request an **IP range**, for example: *192.168.1.0/24*
 
-![image](https://github.com/josrojrom1/netscanner/assets/32680720/55f4d911-380f-49ca-8a38-64afc500115c)
+![image](https://github.com/josrojrom1/netscanner/assets/32680720/3f4858b1-5c5c-41a5-b62b-f350ddd87a86)
 
 The tool will mark **hosts** and **gateway** in the provided **IP range**.
 
 Remember to use the `deactivate` command when you finish using the netscanner tool to exit virtual environment.
 
+<br/>
+<br/>
+
+---
+
+*by José Joaquín Rojas Romero aka tric0 - josrojrom1@alum.us.es*
