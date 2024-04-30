@@ -63,7 +63,7 @@ if __name__ == "__main__":
     print("\n")
     devices = scan_ips(ip_range)
     print('---------------------------------------------')
-    print("Dispositivos en la red:")
+    print(f"Active devices on {ip_range} IP range:")
     print('---------------------------------------------')
     for device in devices:
         if ip_gateway.search(device['ip']):
