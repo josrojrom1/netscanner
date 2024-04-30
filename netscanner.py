@@ -38,8 +38,8 @@ def scan_ips(ip_range):
 
 if __name__ == "__main__":
     # IP range pattern
-    ip_range_pattern = re.compile("^(?:[0-9]{1,3}\.){3}[0-9]{1,3}/[0-9]*$")
-    ip_gateway = re.compile("^(?:[0-9]{1,3}\.){3}[1]*$")
+    ip_range_pattern = re.compile("^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}/[0-9]*$")
+    ip_gateway = re.compile("^(?:[0-9]{1,3}\\.){3}[1]*$")
     
     while True:
         try:
