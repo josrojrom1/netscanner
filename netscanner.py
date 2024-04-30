@@ -4,10 +4,22 @@ from scapy.all import ARP, Ether, srp
 import os
 import sys
 import re
-
-os.system('clear')
+##########
+# Colors #
+COLOR_RED = "\033[91m"
+COLOR_GREEN = "\033[92m"
+COLOR_YELLOW = "\033[93m"
+COLOR_ORANGE = "\033[38;5;208m"
+RESET_COLOR = "\033[0m"
+##############
+# CHECK SUDO #
+if os.geteuid() != 0:
+    print(f"\nThis script requires administrator privileges ({COLOR_ORANGE}sudo{RESET_COLOR}) to run correctly.")
+    print(f"Please {COLOR_GREEN}rerun{RESET_COLOR} the script with {COLOR_ORANGE}sudo{RESET_COLOR}.\n")
+    sys.exit(1)
 ##########
 # Banner #
+os.system('clear')
 with open('banner.txt', 'r') as b:
     for line in b:
         print(line.strip().replace('#', ''))
@@ -35,18 +47,18 @@ if __name__ == "__main__":
             ip_range = input("Insert IP range or private network (Example: 192.168.1.0/24): ")
         except KeyboardInterrupt:
             print("\n\n")
-            print(f"   \033[93m> Ctrl+c pressed. Exiting... <\033[0m\n\n")
+            print(f"   {COLOR_YELLOW}> Ctrl+c pressed. Exiting... <{RESET_COLOR}\n\n")
             sys.exit(0)
 
         
         if ip_range_pattern.search(ip_range.strip()):
             print("\n")
-            print(f"   \033[92m> {ip_range} is a valid IP range! <\033[0m\n")
+            print(f"   {COLOR_GREEN}> {ip_range} is a valid IP range! <{RESET_COLOR}\n")
             break
         else:
             # Using ANSI scape sequences to aply log colors
             print("\n")
-            print(f"   \033[91m> Invalid argument '{ip_range}', please try again! <\033[0m\n\n")
+            print(f"   {COLOR_RED}> Invalid argument '{ip_range}', please try again! <{RESET_COLOR}\n\n")
             #print("\n")
     print("\n")
     devices = scan_ips(ip_range)
@@ -55,9 +67,9 @@ if __name__ == "__main__":
     print('---------------------------------------------')
     for device in devices:
         if ip_gateway.search(device['ip']):
-            print(f"(*) IP: {device['ip']} - MAC: {device['mac']}  \033[38;5;208m> Gateway <\033[0m")
+            print(f"(*) IP: {device['ip']} - MAC: {device['mac']}  {COLOR_ORANGE}> Gateway <{RESET_COLOR}")
             print('---------------------------------------------')
         else:
-            print(f"(*) IP: {device['ip']} - MAC: {device['mac']}  \033[92m> Host <\033[0m")
+            print(f"(*) IP: {device['ip']} - MAC: {device['mac']}  {COLOR_GREEN}> Host <{RESET_COLOR}")
             print('---------------------------------------------')
     print("\n")
